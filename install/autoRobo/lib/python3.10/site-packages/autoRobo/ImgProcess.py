@@ -241,37 +241,34 @@ class birdsEyeViewImage:
         for i in contours:
             hull = cv2.convexHull(i)
             area = cv2.contourArea(hull, True)
-            if 10 < area and area < img.shape[0]*img.shape[1]:
+            if area < img.shape[0]*img.shape[1]:
                 mask = cv2.fillPoly(maskImg.copy(), [i[:,0,:]], (255,255,255), lineType=cv2.LINE_8, shift=0)
                 maskdImg = cv2.bitwise_and(hsv.copy(),mask)
                 maskedh = maskdImg[:,:,0]
                 maskedv = maskdImg[:,:,2]
-                h = maskedh[(maskedh > 0) & (maskedv > 100)]
-                if h[((255/2 < h) & (h < 2/3*255))].shape[0] >= 0.1*h.shape[0]:
+                h = maskedh[(maskedh > 0) & (maskedv > 150)]
+                if h[((255/2 < h) & (h < 2/3*255))].shape[0] >= 0.5*h.shape[0]:
                     rectImg = cv2.fillPoly(rectImg, [i[:,0,:]], (0,255,0), lineType=cv2.LINE_8, shift=0)
-
-        
         return rectImg
     def calcMoment(self,img):
-        img = cv2.medianBlur(img,5)
+        #img = cv2.medianBlur(img,5)
         gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
         edge = cv2.Canny(gray,100,255,cv2.THRESH_BINARY)
         ret, dst = cv2.threshold(edge ,10,500,cv2.THRESH_BINARY)
         contours, hierarchy = cv2.findContours(dst, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
         objects = []
         for i, contour in enumerate(contours):
-            if cv2.contourArea(contour) < 1.5*self.size**2:
+            if cv2.contourArea(contour) < self.size**2:
                 continue
             m = cv2.moments(contour)
             try:
                 x,y= m['m10']/m['m00'] , m['m01']/m['m00']
                 x, y = round(x), round(y)
-                cv2.line(img, (x-5,y-5), (x+5,y+5), (0, 0, 255), 2)
-                cv2.line(img, (x+5,y-5), (x-5,y+5), (0, 0, 255), 2)
-                objects.append(x,y)
+                p = (np.array(self.M[0])@np.array([x,y,1]))
+                objects.append(p[0:2]/p[2])
             except:
                 pass
-        return objects,cv2.cvtColor(edge,cv2.COLOR_GRAY2BGR)
+        return objects
     
 
 class ImgProcess(Node):
@@ -331,15 +328,19 @@ class ImgProcess(Node):
         # except:
         #     pass
         
-        try:
-            re = self.bevi.SearchEraser(img[y0:y1,x0:x1],5)
-            ob,ee = self.bevi.calcMoment(re)
-            print(ob)
-        except:
-            pass
+        
+        re = self.bevi.SearchEraser(rawimg,5)
+        ob = self.bevi.calcMoment(re)
+        for i in ob:
+            x = int(i[0])
+            y = int(i[1])
+            cv2.line(img, (x-5,y-5), (x+5,y+5), (0, 0, 255), 2)
+            cv2.line(img, (x+5,y-5), (x-5,y+5), (0, 0, 255), 2)
+        # except:
+        #     pass
 
         try:
-            img_jpeg = simplejpeg.encode_jpeg(np.array(ee), colorspace = "BGR", quality = 50)
+            img_jpeg = simplejpeg.encode_jpeg(np.array(img), colorspace = "BGR", quality = 50)
             pub_msg = String()
             pub_msg.data = base64.b64encode(img_jpeg).decode()
             self.pub.publish(pub_msg)
