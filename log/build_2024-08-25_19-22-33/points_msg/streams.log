@@ -1,0 +1,48 @@
+[1.299s] Invoking command in '/home/yamashita/natu2024/build/points_msg': CMAKE_PREFIX_PATH=/home/yamashita/natu2024/install/autoRobo:/opt/ros/humble /usr/bin/cmake /home/yamashita/natu2024/src/points_msg -DCMAKE_INSTALL_PREFIX=/home/yamashita/natu2024/install/points_msg
+[1.357s] -- Found ament_cmake: 1.3.10 (/opt/ros/humble/share/ament_cmake/cmake)
+[1.966s] -- Found rosidl_default_generators: 1.2.0 (/opt/ros/humble/share/rosidl_default_generators/cmake)
+[1.973s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.986s] -- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[2.168s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[3.087s] [31mCMake Error at /opt/ros/humble/share/rosidl_adapter/cmake/rosidl_adapt_interfaces.cmake:59 (message):
+[3.087s]   execute_process(/usr/bin/python3 -m rosidl_adapter --package-name
+[3.088s]   points_msg --arguments-file
+[3.088s]   /home/yamashita/natu2024/build/points_msg/rosidl_adapter__arguments__points_msg.json
+[3.089s]   --output-dir
+[3.089s]   /home/yamashita/natu2024/build/points_msg/rosidl_adapter/points_msg
+[3.090s]   --output-file
+[3.090s]   /home/yamashita/natu2024/build/points_msg/rosidl_adapter/points_msg.idls)
+[3.091s]   returned error code 1:
+[3.091s] 
+[3.092s]   Traceback (most recent call last):
+[3.093s] 
+[3.094s]     File "/usr/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+[3.094s]       return _run_code(code, main_globals, None,
+[3.095s]     File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+[3.095s]       exec(code, run_globals)
+[3.096s]     File "/opt/ros/humble/local/lib/python3.10/dist-packages/rosidl_adapter/__main__.py", line 19, in <module>
+[3.097s]       sys.exit(main())
+[3.097s]     File "/opt/ros/humble/local/lib/python3.10/dist-packages/rosidl_adapter/main.py", line 53, in main
+[3.098s]       abs_idl_file = convert_to_idl(
+[3.099s]     File "/opt/ros/humble/local/lib/python3.10/dist-packages/rosidl_adapter/__init__.py", line 19, in convert_to_idl
+[3.099s]       return convert_msg_to_idl(
+[3.100s]     File "/opt/ros/humble/local/lib/python3.10/dist-packages/rosidl_adapter/msg/__init__.py", line 28, in convert_msg_to_idl
+[3.100s]       msg = parse_message_string(package_name, input_file.stem, content)
+[3.101s]     File "/opt/ros/humble/local/lib/python3.10/dist-packages/rosidl_adapter/parser.py", line 544, in parse_message_string
+[3.102s]       msg = MessageSpecification(pkg_name, msg_name, fields, constants)
+[3.103s]     File "/opt/ros/humble/local/lib/python3.10/dist-packages/rosidl_adapter/parser.py", line 388, in __init__
+[3.104s]       self.base_type = BaseType(
+[3.106s]     File "/opt/ros/humble/local/lib/python3.10/dist-packages/rosidl_adapter/parser.py", line 205, in __init__
+[3.106s]       raise InvalidResourceName(
+[3.107s] 
+[3.111s]   rosidl_adapter.parser.InvalidResourceName: 'map_points' is an invalid
+[3.113s]   message name.  It should have the pattern '^[A-Z][A-Za-z0-9]*$'
+[3.113s] 
+[3.114s] Call Stack (most recent call first):
+[3.114s]   /opt/ros/humble/share/rosidl_cmake/cmake/rosidl_generate_interfaces.cmake:130 (rosidl_adapt_interfaces)
+[3.115s]   CMakeLists.txt:13 (rosidl_generate_interfaces)
+[3.115s] 
+[3.115s] [0m
+[3.116s] -- Configuring incomplete, errors occurred!
+[3.116s] See also "/home/yamashita/natu2024/build/points_msg/CMakeFiles/CMakeOutput.log".
+[3.117s] Invoked command in '/home/yamashita/natu2024/build/points_msg' returned '1': CMAKE_PREFIX_PATH=/home/yamashita/natu2024/install/autoRobo:/opt/ros/humble /usr/bin/cmake /home/yamashita/natu2024/src/points_msg -DCMAKE_INSTALL_PREFIX=/home/yamashita/natu2024/install/points_msg

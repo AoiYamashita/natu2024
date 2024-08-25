@@ -1,0 +1,2 @@
+Invoking command in '/home/yamashita/natu2024/build/points_msg': CMAKE_PREFIX_PATH=/home/yamashita/natu2024/install/autoRobo:/opt/ros/humble /usr/bin/cmake /home/yamashita/natu2024/src/points_msg -DCMAKE_INSTALL_PREFIX=/home/yamashita/natu2024/install/points_msg
+Invoked command in '/home/yamashita/natu2024/build/points_msg' returned '1': CMAKE_PREFIX_PATH=/home/yamashita/natu2024/install/autoRobo:/opt/ros/humble /usr/bin/cmake /home/yamashita/natu2024/src/points_msg -DCMAKE_INSTALL_PREFIX=/home/yamashita/natu2024/install/points_msg

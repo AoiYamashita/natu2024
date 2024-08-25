@@ -3,6 +3,7 @@ import simplejpeg
 import rclpy
 from rclpy.node import Node
 from rclpy.qos import qos_profile_sensor_data
+from std_msgs.msg import Float64MultiArray
 from sensor_msgs.msg import Image
 from std_msgs.msg import String
 
@@ -278,6 +279,7 @@ class ImgProcess(Node):
         self.subscription = self.create_subscription(Image,"image_raw",self.cb,qos_profile_sensor_data)
         self.publisher = self.create_publisher(Image,"processed",10)
         self.pub = self.create_publisher(String, 'web_image', 10)
+        self.pointpub = self.create_publisher(Float64MultiArray, 'point_data', 10)
         self.bevi = birdsEyeViewImage(25)
         self.cnt = 0
         return
@@ -311,22 +313,14 @@ class ImgProcess(Node):
             if y0 < 0:
                 y0 = 0
 
-        # try:
-        #     Edges = self.bevi.SearchLine(img[y0:y1,x0:x1])
+        try:
+            Edges = self.bevi.SearchLine(img[y0:y1,x0:x1])
             
-        #     points = np.argwhere(Edges > 0)-(self.bevi.MarkerPosition[0]-np.array([x0,y0])+self.bevi.size/2)[::-1]
+            points = np.argwhere(Edges > 0)-(self.bevi.MarkerPosition[0]-np.array([x0,y0])+self.bevi.size/2)[::-1]
 
-        #     localmap = np.zeros((251,251))
 
-        #     a = 200/np.max([np.max(points[:,0]) - np.min(points[:,0]),np.max(points[:,1]) - np.min(points[:,1])])
-
-        #     for i in points:
-        #         localmap[int(a*(i[1]-np.min(points[:,1]))),int(a*(i[0]-np.min(points[:,0])))] = 1
-            
-        #     points = np.argwhere(localmap > 0)/a+np.array([np.min(points[:,1]),np.min(points[:,0])])
-            
-        # except:
-        #     pass
+        except:
+            pass
         
         
         re = self.bevi.SearchEraser(rawimg,5)
@@ -344,6 +338,9 @@ class ImgProcess(Node):
             pub_msg = String()
             pub_msg.data = base64.b64encode(img_jpeg).decode()
             self.pub.publish(pub_msg)
+            pub_msg = Float64MultiArray()
+            pub_msg.data = points.flatten().tolist()
+            self.pointpub.publish(pub_msg)
         except:
             pass
 
