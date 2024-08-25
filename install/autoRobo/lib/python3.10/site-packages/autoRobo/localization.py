@@ -15,9 +15,9 @@ class Localization(Node):
         self.EKF = ExtendedKalmanFilter(0.1,0.1,0.2)
         self.map = np.load("/home/yamashita/natu2024/mapPoints.npy")
         self.pose = np.array([1550,900,np.pi])
-        print(self.map)
-        matching = NDTmatching((np.array([[-1.0,0.0],[0.0,-1.0]])@self.map.T).T+self.pose[0:2],self.map,self.pose)
-        self.boxSize = matching.BoxSize
+        #print((np.array([[-1,0],[0,-1]])@self.map.T).T+np.array([1550,900]))
+        matching = NDTmatching(np.array([[10,10]]),self.map,self.pose)
+        self.boxSize = matching.Boxsize
         self.center = matching.PointsMin
         pose = matching.optedPose
         self.MapPoints = matching.boxMap.copy()
