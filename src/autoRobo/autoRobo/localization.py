@@ -1,6 +1,6 @@
 import base64
 import simplejpeg
-from KarakuriSlamBaseModule import ICPmatching
+from KarakuriSlamBaseModule import NDTmatching
 from KarakuriSlamBaseModule import ExtendedKalmanFilter
 import rclpy
 from rclpy.node import Node
@@ -13,6 +13,14 @@ class Localization(Node):
         super().__init__("receiver")
         self.subscription = self.create_subscription(Float64MultiArray,"point_data",self.cb,10)
         self.EKF = ExtendedKalmanFilter(0.1,0.1,0.2)
+        self.map = np.load("/home/yamashita/mapPoints.npy")
+        self.pose = np.array([1550,900,np.pi])
+        matching = NDTmatching((np.array([[-1.0,0.0],[0.0,-1.0]])@self.map.T).T+self.pose[0:2],self.map,self.pose)
+        self.boxSize = matching.BoxSize
+        self.center = matching.PointsMin
+        pose = matching.optedPose
+        self.MapPoints = matching.boxMap.copy()
+        print(pose)
         return
     def cb(self,data):
         data = np.array(data.data)  # 受信データを`ndarray`に変換
