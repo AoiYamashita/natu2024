@@ -1,5 +1,7 @@
 import base64
 import simplejpeg
+from KarakuriSlamBaseModule import ICPmatching
+from KarakuriSlamBaseModule import ExtendedKalmanFilter
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float64MultiArray
@@ -10,6 +12,7 @@ class Localization(Node):
     def __init__(self):
         super().__init__("receiver")
         self.subscription = self.create_subscription(Float64MultiArray,"point_data",self.cb,10)
+        self.EKF = ExtendedKalmanFilter(0.1,0.1,0.2)
         return
     def cb(self,data):
         data = np.array(data.data)  # 受信データを`ndarray`に変換
