@@ -21,9 +21,18 @@ class Localization(Node):
     def cb(self,data):
         data = np.array(data.data)
         points = data.reshape((-1, 2))
-        matching = NDTmatching(points,self.MapPoints,self.pose,self.boxSize,self.center)
-        print(matching.optedPose)
-        self.pose = matching.optedPose
+        box = 30
+        points = np.unique(np.round(points/box)*box, axis=0)
+        points = points[((abs(points[:,0]) > 150) & (abs(points[:,0]) < 500))| ((abs(points[:,1]) > 150) & (abs(points[:,1]) < 500))]
+        points = points[:,::-1]
+        try:
+            matching = NDTmatching(points,self.MapPoints,self.pose.copy(),self.boxSize,self.center.copy())
+            print(self.pose)
+            delta = self.pose-matching.optedPose
+            if delta[0:2]@(delta[0:2]).T < 1e6 and delta is not None and matching.minScore < 1.0:
+                self.pose = matching.optedPose
+        except:
+            pass
         #self.get_logger().info('Received matrix: "%s"' % matrix)
 
 def main():
