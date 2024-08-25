@@ -220,7 +220,7 @@ class birdsEyeViewImage:
 
         sobel = cv2.medianBlur(sobel, k)
 
-        ret, dst = cv2.threshold(sobel ,30,500,cv2.THRESH_BINARY)
+        ret, dst = cv2.threshold(sobel ,20,500,cv2.THRESH_BINARY)
 
         kernelsize = 3
 
@@ -228,27 +228,26 @@ class birdsEyeViewImage:
 
         dst_ = cv2.dilate(dst, np.uint8(kernel),iterations=3)
         
-        notdst = cv2.bitwise_not(dst_)
+        notdst = cv2.bitwise_not(dst)
 
         notdst = cv2.medianBlur(notdst, k)
 
-        contours, hierarchy = cv2.findContours(notdst, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
+        contours, hierarchy = cv2.findContours(notdst, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
         #contours = [x for x in contours if cv2.contourArea(x) > 100]
-        lineImg = img.copy()*0
-        lineImg = cv2.drawContours(lineImg,contours,-1,(0,225,0),1)
-        rectImg = img.copy()*0
-        maskImg = np.zeros(img.shape,np.uint8)
+        maskImg = np.zeros((img.shape[0],img.shape[1],3),dtype = np.uint8)
+        maskImg = cv2.drawContours(maskImg,contours,-1,(255,255,255),-1)
+        maskImg.astype(hsv.dtype)
+        masked = cv2.bitwise_and(hsv,maskImg)
+        rectImg = np.zeros((img.shape[0],img.shape[1]))
         for i in contours:
-            hull = cv2.convexHull(i)
-            area = cv2.contourArea(hull, True)
-            if area < img.shape[0]*img.shape[1]:
-                mask = cv2.fillPoly(maskImg.copy(), [i[:,0,:]], (255,255,255), lineType=cv2.LINE_8, shift=0)
-                maskdImg = cv2.bitwise_and(hsv.copy(),mask)
-                maskedh = maskdImg[:,:,0]
-                maskedv = maskdImg[:,:,2]
-                h = maskedh[(maskedh > 0) & (maskedv > 150)]
-                if h[((255/2 < h) & (h < 2/3*255))].shape[0] >= 0.5*h.shape[0]:
+            area = cv2.contourArea(i)
+            if 100 < area and area < img.shape[0]*img.shape[1]*0.5:
+                x_, y_, w_, h_ = cv2.boundingRect(i)
+                if w_ == 0 or h_ == 0:
+                    continue
+                maskedh = masked[y_:y_+h_,x_:x_+w_,0]
+                if ((maskedh[((255/2 < maskedh) & (maskedh < 2/3*255))]).shape[0]) >= 0.3*maskedh.shape[0]:
                     rectImg = cv2.fillPoly(rectImg, [i[:,0,:]], (0,255,0), lineType=cv2.LINE_8, shift=0)
         return rectImg
     def calcMoment(self,img):
@@ -298,7 +297,6 @@ class ImgProcess(Node):
         img = self.bevi.transImg(rawimg)
 
         x0,y0,x1,y1 = self.bevi.GetFieldErea(img)
-        Bird = rawimg.copy()
         print(x0,y0,x1,y1)
 
         if x0 is not None:
@@ -317,12 +315,14 @@ class ImgProcess(Node):
             Edges = self.bevi.SearchLine(img[y0:y1,x0:x1])
             
             points = np.argwhere(Edges > 0)-(self.bevi.MarkerPosition[0]-np.array([x0,y0])+self.bevi.size/2)[::-1]
-
-
+            
+            pub_msg = Float64MultiArray()
+            pub_msg.data = points.flatten().tolist()
+            self.pointpub.publish(pub_msg)
         except:
             pass
         
-        
+        #try:
         re = self.bevi.SearchEraser(rawimg,5)
         ob = self.bevi.calcMoment(re)
         for i in ob:
@@ -330,17 +330,14 @@ class ImgProcess(Node):
             y = int(i[1])
             cv2.line(img, (x-5,y-5), (x+5,y+5), (0, 0, 255), 2)
             cv2.line(img, (x+5,y-5), (x-5,y+5), (0, 0, 255), 2)
-        # except:
-        #     pass
+        #except:
+        #    pass
 
         try:
-            img_jpeg = simplejpeg.encode_jpeg(np.array(img), colorspace = "BGR", quality = 50)
+            img_jpeg = simplejpeg.encode_jpeg(np.array(re), colorspace = "BGR", quality = 50)
             pub_msg = String()
             pub_msg.data = base64.b64encode(img_jpeg).decode()
             self.pub.publish(pub_msg)
-            pub_msg = Float64MultiArray()
-            pub_msg.data = points.flatten().tolist()
-            self.pointpub.publish(pub_msg)
         except:
             pass
 
