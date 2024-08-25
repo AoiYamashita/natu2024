@@ -13,8 +13,9 @@ class Localization(Node):
         super().__init__("receiver")
         self.subscription = self.create_subscription(Float64MultiArray,"point_data",self.cb,10)
         self.EKF = ExtendedKalmanFilter(0.1,0.1,0.2)
-        self.map = np.load("/home/yamashita/mapPoints.npy")
+        self.map = np.load("/home/yamashita/natu2024/mapPoints.npy")
         self.pose = np.array([1550,900,np.pi])
+        print(self.map)
         matching = NDTmatching((np.array([[-1.0,0.0],[0.0,-1.0]])@self.map.T).T+self.pose[0:2],self.map,self.pose)
         self.boxSize = matching.BoxSize
         self.center = matching.PointsMin
