@@ -11,6 +11,8 @@ setup.py
 autoRobo/ImgProcess.py
 autoRobo/__init__.py
 autoRobo/localization.py
+autoRobo/serial.py
+launch/autoRobo.launch.py
 resource/autoRobo
 test/test_copyright.py
 test/test_flake8.py

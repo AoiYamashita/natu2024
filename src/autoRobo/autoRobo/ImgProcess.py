@@ -56,7 +56,7 @@ class birdsEyeViewImage:
         self.distortion_coeff = np.array([ 0.16446647 ,-0.88571052 ,-0.0095173   ,0.00431599  ,1.95886302],dtype=np.float32)
         self.size = size
         self.cornerVec = np.array([[size,0],[0,0],[0,size],[size,size]],dtype=np.float32)
-        self.M = [None for i in range(10)]
+        self.corners = [None for i in range(10)]
     def transImg(self,img,MarkerPosition = None,cornerVec = None):
         if cornerVec is not None:
             self.cornerVec = cornerVec
@@ -71,15 +71,32 @@ class birdsEyeViewImage:
 
         corners, ids, rejectedImgPoints = aruco.detectMarkers(img, self.dictionary)
         #aruco.drawDetectedMarkers(img, corners, ids, (0,255,255))
-
         corners = np.squeeze(corners)
         ids = np.squeeze(ids)
 
         Ms = []
 
+        alpha = 0.8
+        try:
+            for i in ids:
+                self.corners[i] *= alpha
+                self.corners[i] += (1-alpha)*corners[i]
+        except:
+            pass
+
+        try:
+            if self.corners[ids] is None:
+                self.corners[ids] = corners
+            else:
+                self.corners[ids] *= alpha
+                self.corners[ids] += (1-alpha)*corners
+        except:
+            pass
+
         try:            
-            M = cv2.getPerspectiveTransform(corners, np.array(self.cornerVec+MarkerPosition[ids],dtype=np.float32))
+            M = cv2.getPerspectiveTransform(np.round(self.corners[ids]), np.array(self.cornerVec+MarkerPosition[ids],dtype=np.float32))
             Ms.append(M)
+            self.M = [M]
         except:
             pass
 
@@ -113,7 +130,7 @@ class birdsEyeViewImage:
 
         #M = sign*ave
 
-        lamda = 0.7
+        #lamda = 0.7
 
         # try:
         #     for i in range(10):
@@ -125,21 +142,21 @@ class birdsEyeViewImage:
         # except:
         #     pass
 
-        try:
-            if self.M[ids] is None:
-                self.M[ids] = Ms[0]
-            else:
-                self.M[ids] *= lamda
-                self.M[ids] += Ms[0]*(1-lamda)
-        except:
-            pass
+        # try:
+        #     if self.M[ids] is None:
+        #         self.M[ids] = Ms[0]
+        #     else:
+        #         self.M[ids] *= lamda
+        #         self.M[ids] += Ms[0]*(1-lamda)
+        # except:
+        #     pass
 
         try:
-            M = self.M[0]
             w2, h2 = img.shape[1],img.shape[1]#(center+k).max(axis=0).astype(int) + 700 # 鳥瞰画像サイズを拡張（見た目の調整）
             img = cv2.warpPerspective(img, M, (w2,h2) )
         except:
             pass
+
 
         #print("-"*50)
         return img
@@ -234,21 +251,20 @@ class birdsEyeViewImage:
 
         contours, hierarchy = cv2.findContours(notdst, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
-        #contours = [x for x in contours if cv2.contourArea(x) > 100]
-        maskImg = np.zeros((img.shape[0],img.shape[1],3),dtype = np.uint8)
+        contours = [x for x in contours if cv2.contourArea(x) > 100 and cv2.contourArea(x) < img.shape[0]*img.shape[1]*0.5]
+        maskImg = img.copy()*0
         maskImg = cv2.drawContours(maskImg,contours,-1,(255,255,255),-1)
-        maskImg.astype(hsv.dtype)
         masked = cv2.bitwise_and(hsv,maskImg)
-        rectImg = np.zeros((img.shape[0],img.shape[1]))
+        rectImg = img.copy()*0
         for i in contours:
             area = cv2.contourArea(i)
-            if 100 < area and area < img.shape[0]*img.shape[1]*0.5:
-                x_, y_, w_, h_ = cv2.boundingRect(i)
-                if w_ == 0 or h_ == 0:
-                    continue
-                maskedh = masked[y_:y_+h_,x_:x_+w_,0]
-                if ((maskedh[((255/2 < maskedh) & (maskedh < 2/3*255))]).shape[0]) >= 0.3*maskedh.shape[0]:
-                    rectImg = cv2.fillPoly(rectImg, [i[:,0,:]], (0,255,0), lineType=cv2.LINE_8, shift=0)
+            x_, y_, w_, h_ = cv2.boundingRect(i)
+            if w_ == 0 or h_ == 0 or h_*w_/4 > area or h_*w_ > img.shape[0]*img.shape[1]*0.4:
+                continue
+            maskedh = (masked[y_:y_+h_,x_:x_+w_,0]).reshape(-1)
+            maskedv = (masked[y_:y_+h_,x_:x_+w_,2]).reshape(-1)
+            if ((maskedh[((255/2 < maskedh) & (maskedh < 2/3*255)) | (maskedv < 100)]).shape[0]) >= 0.01*maskedh.shape[0]:
+                rectImg = cv2.fillPoly(rectImg, [i[:,0,:]], (0,255,0), lineType=cv2.LINE_8, shift=0)
         return rectImg
     def calcMoment(self,img):
         #img = cv2.medianBlur(img,5)
@@ -284,15 +300,7 @@ class ImgProcess(Node):
         return
     def cb(self,data):
         self.cnt += 1
-        imgdata = self.br.imgmsg_to_cv2(data,'bgr8')
-
-        alpha = 1.2
-        beta = 50
-
-        frame= imgdata * alpha
-        frame[:,:,:] += beta
-
-        rawimg = np.clip(frame,0,255).astype(np.uint8)
+        rawimg = self.br.imgmsg_to_cv2(data,'bgr8')
 
         img = self.bevi.transImg(rawimg)
 
@@ -334,7 +342,7 @@ class ImgProcess(Node):
         #    pass
 
         try:
-            img_jpeg = simplejpeg.encode_jpeg(np.array(re), colorspace = "BGR", quality = 50)
+            img_jpeg = simplejpeg.encode_jpeg(np.array(img), colorspace = "BGR", quality = 50)
             pub_msg = String()
             pub_msg.data = base64.b64encode(img_jpeg).decode()
             self.pub.publish(pub_msg)
