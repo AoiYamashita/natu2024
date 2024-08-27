@@ -40,7 +40,7 @@ class mySerial(Node):
             data = self.serial.readline()
             data=data.strip()
             data=data.decode('utf-8')
-            if self.cnt%1000 == 0 and data != "":
+            if data != "":
                 self.get_logger().info("serial read: %s" % data)
         except:
             #print("no data")
