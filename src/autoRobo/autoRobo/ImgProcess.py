@@ -57,6 +57,7 @@ class birdsEyeViewImage:
         self.size = size
         self.cornerVec = np.array([[size,0],[0,0],[0,size],[size,size]],dtype=np.float32)
         self.corners = [None for i in range(10)]
+        self.M = None
     def transImg(self,img,MarkerPosition = None,cornerVec = None):
         if cornerVec is not None:
             self.cornerVec = cornerVec
@@ -73,8 +74,6 @@ class birdsEyeViewImage:
         #aruco.drawDetectedMarkers(img, corners, ids, (0,255,255))
         corners = np.squeeze(corners)
         ids = np.squeeze(ids)
-
-        Ms = []
 
         alpha = 0.8
         try:
@@ -95,7 +94,6 @@ class birdsEyeViewImage:
 
         try:            
             M = cv2.getPerspectiveTransform(np.round(self.corners[ids]), np.array(self.cornerVec+MarkerPosition[ids],dtype=np.float32))
-            Ms.append(M)
             self.M = [M]
         except:
             pass
@@ -153,7 +151,7 @@ class birdsEyeViewImage:
 
         try:
             w2, h2 = img.shape[1],img.shape[1]#(center+k).max(axis=0).astype(int) + 700 # 鳥瞰画像サイズを拡張（見た目の調整）
-            img = cv2.warpPerspective(img, M, (w2,h2) )
+            img = cv2.warpPerspective(img, self.M[0], (w2,h2) )
         except:
             pass
 

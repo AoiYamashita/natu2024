@@ -20,7 +20,7 @@ def generate_launch_description():
             parameters=[{'image_width': 640,
                          'image_height': 480,
                          'pixel_format': "yuyv",
-                         'brightness': 120}],
+                         'brightness': 130}],
             output = 'screen',
             )
     web = launch_ros.actions.Node(

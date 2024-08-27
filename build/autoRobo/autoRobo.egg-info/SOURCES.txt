@@ -11,6 +11,7 @@ setup.py
 autoRobo/ImgProcess.py
 autoRobo/__init__.py
 autoRobo/localization.py
+autoRobo/operater.py
 autoRobo/serial.py
 launch/autoRobo.launch.py
 resource/autoRobo
