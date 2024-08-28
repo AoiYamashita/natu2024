@@ -212,12 +212,18 @@ class birdsEyeViewImage:
 
         # kernel = cv2.getStructuringElement(cv2.MORPH_CROSS, (3, 3))
 
+
         # dst = cv2.erode(dst, kernel)
 
         Edge = cv2.bitwise_and(dst,newzeromask)
-        #cv2.imshow("edgehoge",Edge)
 
-        return Edge
+        lines = cv2.HoughLinesP(Edge, rho=1, theta=np.pi/360, threshold=80, minLineLength=30, maxLineGap=10)
+        #cv2.imshow("edgehoge",Edge)
+        lines_ = cv2.bitwise_not(Edge*0)
+        for i in lines:
+            x1,y1,x2,y2 = i[0]
+            lines_ = cv2.line(lines_, (x1,y1), (x2,y2), (0), 2)
+        return lines_
     def SearchEraser(self,img,k = 3):
         img = cv2.medianBlur(img, k)
         hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV_FULL)
@@ -303,7 +309,7 @@ class ImgProcess(Node):
         img = self.bevi.transImg(rawimg)
 
         x0,y0,x1,y1 = self.bevi.GetFieldErea(img)
-        print(x0,y0,x1,y1)
+        #print(x0,y0,x1,y1)
 
         if x0 is not None:
             blank = int(0.15*(x1-x0+y1-y0)/2.0)
@@ -343,7 +349,7 @@ class ImgProcess(Node):
         #    pass
 
         try:
-            img_jpeg = simplejpeg.encode_jpeg(np.array(cv2.cvtColor(Edges,cv2.COLOR_GRAY2BGR)), colorspace = "BGR", quality = 50)
+            img_jpeg = simplejpeg.encode_jpeg(np.array(img), colorspace = "BGR", quality = 50)
             pub_msg = String()
             pub_msg.data = base64.b64encode(img_jpeg).decode()
             self.pub.publish(pub_msg)

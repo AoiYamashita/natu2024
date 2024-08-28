@@ -14,6 +14,11 @@ def generate_launch_description():
             executable = 'serial',
             output = 'screen',
             )
+    localization = launch_ros.actions.Node(
+            package = 'autoRobo',
+            executable = 'Localization',
+            output = 'screen',
+            )
     usb_cam = launch_ros.actions.Node(
             package = 'usb_cam',
             executable = 'usb_cam_node_exe',
@@ -29,4 +34,4 @@ def generate_launch_description():
             parameters=[{'port': 9090}],
             output = 'screen',
             )
-    return launch.LaunchDescription([web,usb_cam,camera])#,serial])
+    return launch.LaunchDescription([usb_cam,camera,serial,localization,web])#web,

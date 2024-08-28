@@ -44,7 +44,7 @@ class mySerial(Node):
             data=data.decode('utf-8')
             if data != "":
                 #self.get_logger().info("serial read: %s" % data)
-                print("serial read {}".format(data))
+                #print("serial read {}".format(data))
                 x,y,omega = map(float,data.split(","))
                 V = Vector3()
                 V.x = x

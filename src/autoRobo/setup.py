@@ -24,7 +24,7 @@ setup(
     entry_points={
         'console_scripts': [
             'ImgProcess = autoRobo.ImgProcess:main',
-            'Loclization = autoRobo.localization:main',
+            'Localization = autoRobo.localization:main',
             'serial = autoRobo.serial:main'
         ],
     },
