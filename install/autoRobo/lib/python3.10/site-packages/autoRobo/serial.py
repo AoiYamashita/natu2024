@@ -43,6 +43,7 @@ class mySerial(Node):
             data=data.strip()
             data=data.decode('utf-8')
             if data != "":
+                self.cnt += 1
                 #self.get_logger().info("serial read: %s" % data)
                 #print("serial read {}".format(data))
                 x,y,omega = map(float,data.split(","))

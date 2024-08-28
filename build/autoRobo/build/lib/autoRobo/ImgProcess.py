@@ -159,6 +159,8 @@ class birdsEyeViewImage:
         #print("-"*50)
         return img
     def GetFieldErea(self,img):
+        if self.M is None:
+            return None,None,None,None
         floor = Get_Color_Point_RBG_Base(img,[170,150,70],50,50)
         floor = cv2.medianBlur(floor,15)
         contours, hierarchy = cv2.findContours(floor, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -219,10 +221,10 @@ class birdsEyeViewImage:
 
         lines = cv2.HoughLinesP(Edge, rho=1, theta=np.pi/360, threshold=80, minLineLength=30, maxLineGap=10)
         #cv2.imshow("edgehoge",Edge)
-        lines_ = cv2.bitwise_not(Edge*0)
+        lines_ = Edge*0
         for i in lines:
             x1,y1,x2,y2 = i[0]
-            lines_ = cv2.line(lines_, (x1,y1), (x2,y2), (0), 2)
+            lines_ = cv2.line(lines_, (x1,y1), (x2,y2), (255), 2)
         return lines_
     def SearchEraser(self,img,k = 3):
         img = cv2.medianBlur(img, k)
@@ -331,22 +333,24 @@ class ImgProcess(Node):
 
             points = 3*(np.argwhere(Edges > 0)-(self.bevi.MarkerPosition[0]-np.array([x0,y0])+self.bevi.size/2)[::-1])+np.array([0,385])
             
+            box = 20
+            points = np.unique(np.round(points/box)*box, axis=0)
             pub_msg = Float64MultiArray()
             pub_msg.data = points.flatten().tolist()
             self.pointpub.publish(pub_msg)
         except:
             pass
         
-        #try:
-        re = self.bevi.SearchEraser(rawimg,5)
-        ob = self.bevi.calcMoment(re)
-        for i in ob:
-            x = int(i[0])
-            y = int(i[1])
-            cv2.line(img, (x-5,y-5), (x+5,y+5), (0, 0, 255), 2)
-            cv2.line(img, (x+5,y-5), (x-5,y+5), (0, 0, 255), 2)
-        #except:
-        #    pass
+        try:
+            re = self.bevi.SearchEraser(rawimg,5)
+            ob = self.bevi.calcMoment(re)
+            for i in ob:
+                x = int(i[0])
+                y = int(i[1])
+                cv2.line(img, (x-5,y-5), (x+5,y+5), (0, 0, 255), 2)
+                cv2.line(img, (x+5,y-5), (x-5,y+5), (0, 0, 255), 2)
+        except:
+            pass
 
         try:
             img_jpeg = simplejpeg.encode_jpeg(np.array(img), colorspace = "BGR", quality = 50)

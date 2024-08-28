@@ -25,7 +25,8 @@ def generate_launch_description():
             parameters=[{'image_width': 640,
                          'image_height': 480,
                          'pixel_format': "yuyv",
-                         'brightness': 130}],
+                         'brightness': 130,
+                         'framerate': 10.0}],
             output = 'screen',
             )
     web = launch_ros.actions.Node(
@@ -34,4 +35,4 @@ def generate_launch_description():
             parameters=[{'port': 9090}],
             output = 'screen',
             )
-    return launch.LaunchDescription([usb_cam,camera,serial,localization,web])#web,
+    return launch.LaunchDescription([usb_cam,camera,serial,localization,web])

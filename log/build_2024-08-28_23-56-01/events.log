@@ -1,0 +1,87 @@
+[0.000000] (-) TimerEvent: {}
+[0.001662] (autoRobo) JobQueued: {'identifier': 'autoRobo', 'dependencies': OrderedDict()}
+[0.002277] (autoRobo) JobStarted: {'identifier': 'autoRobo'}
+[0.098852] (-) TimerEvent: {}
+[0.199664] (-) TimerEvent: {}
+[0.300624] (-) TimerEvent: {}
+[0.401416] (-) TimerEvent: {}
+[0.502934] (-) TimerEvent: {}
+[0.603609] (-) TimerEvent: {}
+[0.704259] (-) TimerEvent: {}
+[0.805228] (-) TimerEvent: {}
+[0.905906] (-) TimerEvent: {}
+[1.006585] (-) TimerEvent: {}
+[1.107358] (-) TimerEvent: {}
+[1.208777] (-) TimerEvent: {}
+[1.310870] (-) TimerEvent: {}
+[1.412507] (-) TimerEvent: {}
+[1.513323] (-) TimerEvent: {}
+[1.614184] (-) TimerEvent: {}
+[1.715053] (-) TimerEvent: {}
+[1.816531] (-) TimerEvent: {}
+[1.918047] (-) TimerEvent: {}
+[2.018918] (-) TimerEvent: {}
+[2.120432] (-) TimerEvent: {}
+[2.221177] (-) TimerEvent: {}
+[2.322530] (-) TimerEvent: {}
+[2.423708] (-) TimerEvent: {}
+[2.526985] (-) TimerEvent: {}
+[2.628476] (-) TimerEvent: {}
+[2.729456] (-) TimerEvent: {}
+[2.830123] (-) TimerEvent: {}
+[2.931758] (-) TimerEvent: {}
+[3.033245] (-) TimerEvent: {}
+[3.133879] (-) TimerEvent: {}
+[3.234547] (-) TimerEvent: {}
+[3.335788] (-) TimerEvent: {}
+[3.436982] (-) TimerEvent: {}
+[3.537936] (-) TimerEvent: {}
+[3.639698] (-) TimerEvent: {}
+[3.742514] (-) TimerEvent: {}
+[3.797026] (autoRobo) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', 'setup.py', 'egg_info', '--egg-base', '../../build/autoRobo', 'build', '--build-base', '/home/yamashita/natu2024/build/autoRobo/build', 'install', '--record', '/home/yamashita/natu2024/build/autoRobo/install.log', '--single-version-externally-managed', 'install_data'], 'cwd': '/home/yamashita/natu2024/src/autoRobo', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'yamashita', 'SSH_CLIENT': '172.20.10.3 54798 22', 'XDG_SESSION_TYPE': 'tty', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/aarch64-linux-gnu:/opt/ros/humble/lib', 'MOTD_SHOWN': 'pam', 'HOME': '/home/yamashita', 'OLDPWD': '/home/yamashita/natu2024/src/autoRobo/autoRobo', 'SSH_TTY': '/dev/pts/1', 'ROS_PYTHON_VERSION': '3', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLCON_PREFIX_PATH': '/home/yamashita/natu2024/install', 'ROS_DISTRO': 'humble', 'LOGNAME': 'yamashita', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'TERM': 'xterm-256color', 'XDG_SESSION_ID': '5', 'ROS_LOCALHOST_ONLY': '0', 'PATH': '/home/yamashita/.local/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'XDG_RUNTIME_DIR': '/run/user/1000', 'LANG': 'C.UTF-8', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'AMENT_PREFIX_PATH': '/home/yamashita/natu2024/install/autoRobo:/opt/ros/humble', 'SHELL': '/bin/bash', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'PWD': '/home/yamashita/natu2024/build/autoRobo', 'SSH_CONNECTION': '172.20.10.3 54798 172.20.10.7 22', 'XDG_DATA_DIRS': '/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/yamashita/natu2024/build/autoRobo/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/yamashita/natu2024/install/autoRobo/lib/python3.10/site-packages:/home/yamashita/natu2024/install/autoRobo/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages', 'COLCON': '1'}, 'shell': False}
+[3.842679] (-) TimerEvent: {}
+[3.949062] (-) TimerEvent: {}
+[4.049904] (-) TimerEvent: {}
+[4.150781] (-) TimerEvent: {}
+[4.251436] (-) TimerEvent: {}
+[4.352087] (-) TimerEvent: {}
+[4.452987] (-) TimerEvent: {}
+[4.553793] (-) TimerEvent: {}
+[4.655067] (-) TimerEvent: {}
+[4.755803] (-) TimerEvent: {}
+[4.857259] (-) TimerEvent: {}
+[4.958023] (-) TimerEvent: {}
+[5.059429] (-) TimerEvent: {}
+[5.160078] (-) TimerEvent: {}
+[5.260840] (-) TimerEvent: {}
+[5.313435] (autoRobo) StdoutLine: {'line': b'running egg_info\n'}
+[5.315995] (autoRobo) StdoutLine: {'line': b'writing ../../build/autoRobo/autoRobo.egg-info/PKG-INFO\n'}
+[5.317380] (autoRobo) StdoutLine: {'line': b'writing dependency_links to ../../build/autoRobo/autoRobo.egg-info/dependency_links.txt\n'}
+[5.318696] (autoRobo) StdoutLine: {'line': b'writing entry points to ../../build/autoRobo/autoRobo.egg-info/entry_points.txt\n'}
+[5.319489] (autoRobo) StdoutLine: {'line': b'writing requirements to ../../build/autoRobo/autoRobo.egg-info/requires.txt\n'}
+[5.320314] (autoRobo) StdoutLine: {'line': b'writing top-level names to ../../build/autoRobo/autoRobo.egg-info/top_level.txt\n'}
+[5.331808] (autoRobo) StdoutLine: {'line': b"reading manifest file '../../build/autoRobo/autoRobo.egg-info/SOURCES.txt'\n"}
+[5.335813] (autoRobo) StdoutLine: {'line': b"writing manifest file '../../build/autoRobo/autoRobo.egg-info/SOURCES.txt'\n"}
+[5.336481] (autoRobo) StdoutLine: {'line': b'running build\n'}
+[5.337030] (autoRobo) StdoutLine: {'line': b'running build_py\n'}
+[5.337647] (autoRobo) StdoutLine: {'line': b'copying autoRobo/localization.py -> /home/yamashita/natu2024/build/autoRobo/build/lib/autoRobo\n'}
+[5.340278] (autoRobo) StdoutLine: {'line': b'running install\n'}
+[5.341880] (autoRobo) StdoutLine: {'line': b'running install_lib\n'}
+[5.345395] (autoRobo) StdoutLine: {'line': b'copying /home/yamashita/natu2024/build/autoRobo/build/lib/autoRobo/localization.py -> /home/yamashita/natu2024/install/autoRobo/lib/python3.10/site-packages/autoRobo\n'}
+[5.349077] (autoRobo) StdoutLine: {'line': b'byte-compiling /home/yamashita/natu2024/install/autoRobo/lib/python3.10/site-packages/autoRobo/localization.py to localization.cpython-310.pyc\n'}
+[5.354620] (autoRobo) StdoutLine: {'line': b'running install_data\n'}
+[5.355700] (autoRobo) StdoutLine: {'line': b'running install_egg_info\n'}
+[5.361036] (-) TimerEvent: {}
+[5.362856] (autoRobo) StdoutLine: {'line': b"removing '/home/yamashita/natu2024/install/autoRobo/lib/python3.10/site-packages/autoRobo-0.0.0-py3.10.egg-info' (and everything under it)\n"}
+[5.364915] (autoRobo) StdoutLine: {'line': b'Copying ../../build/autoRobo/autoRobo.egg-info to /home/yamashita/natu2024/install/autoRobo/lib/python3.10/site-packages/autoRobo-0.0.0-py3.10.egg-info\n'}
+[5.370611] (autoRobo) StdoutLine: {'line': b'running install_scripts\n'}
+[5.460581] (autoRobo) StdoutLine: {'line': b'Installing ImgProcess script to /home/yamashita/natu2024/install/autoRobo/lib/autoRobo\n'}
+[5.461247] (-) TimerEvent: {}
+[5.462076] (autoRobo) StdoutLine: {'line': b'Installing Localization script to /home/yamashita/natu2024/install/autoRobo/lib/autoRobo\n'}
+[5.462975] (autoRobo) StdoutLine: {'line': b'Installing serial script to /home/yamashita/natu2024/install/autoRobo/lib/autoRobo\n'}
+[5.464506] (autoRobo) StdoutLine: {'line': b"writing list of installed files to '/home/yamashita/natu2024/build/autoRobo/install.log'\n"}
+[5.561574] (-) TimerEvent: {}
+[5.631880] (autoRobo) CommandEnded: {'returncode': 0}
+[5.662601] (-) TimerEvent: {}
+[5.681377] (autoRobo) JobEnded: {'identifier': 'autoRobo', 'rc': 0}
+[5.684425] (-) EventReactorShutdown: {}

@@ -1,0 +1,27 @@
+running egg_info
+writing ../../build/autoRobo/autoRobo.egg-info/PKG-INFO
+writing dependency_links to ../../build/autoRobo/autoRobo.egg-info/dependency_links.txt
+writing entry points to ../../build/autoRobo/autoRobo.egg-info/entry_points.txt
+writing requirements to ../../build/autoRobo/autoRobo.egg-info/requires.txt
+writing top-level names to ../../build/autoRobo/autoRobo.egg-info/top_level.txt
+reading manifest file '../../build/autoRobo/autoRobo.egg-info/SOURCES.txt'
+writing manifest file '../../build/autoRobo/autoRobo.egg-info/SOURCES.txt'
+running build
+running build_py
+copying autoRobo/localization.py -> /home/yamashita/natu2024/build/autoRobo/build/lib/autoRobo
+copying autoRobo/serial.py -> /home/yamashita/natu2024/build/autoRobo/build/lib/autoRobo
+running install
+running install_lib
+copying /home/yamashita/natu2024/build/autoRobo/build/lib/autoRobo/localization.py -> /home/yamashita/natu2024/install/autoRobo/lib/python3.10/site-packages/autoRobo
+copying /home/yamashita/natu2024/build/autoRobo/build/lib/autoRobo/serial.py -> /home/yamashita/natu2024/install/autoRobo/lib/python3.10/site-packages/autoRobo
+byte-compiling /home/yamashita/natu2024/install/autoRobo/lib/python3.10/site-packages/autoRobo/localization.py to localization.cpython-310.pyc
+byte-compiling /home/yamashita/natu2024/install/autoRobo/lib/python3.10/site-packages/autoRobo/serial.py to serial.cpython-310.pyc
+running install_data
+running install_egg_info
+removing '/home/yamashita/natu2024/install/autoRobo/lib/python3.10/site-packages/autoRobo-0.0.0-py3.10.egg-info' (and everything under it)
+Copying ../../build/autoRobo/autoRobo.egg-info to /home/yamashita/natu2024/install/autoRobo/lib/python3.10/site-packages/autoRobo-0.0.0-py3.10.egg-info
+running install_scripts
+Installing ImgProcess script to /home/yamashita/natu2024/install/autoRobo/lib/autoRobo
+Installing Localization script to /home/yamashita/natu2024/install/autoRobo/lib/autoRobo
+Installing serial script to /home/yamashita/natu2024/install/autoRobo/lib/autoRobo
+writing list of installed files to '/home/yamashita/natu2024/build/autoRobo/install.log'
