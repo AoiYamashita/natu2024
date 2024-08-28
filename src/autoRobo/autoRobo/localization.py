@@ -53,7 +53,7 @@ class Localization(Node):
         self.pointsPlot = self.create_publisher(String,"Plot",10)
         self.fig,self.ax = plt.subplots()
         self.ax.plot(self.map[:,0],self.map[:,1],lw = 0,marker="o",c='r',markersize=1)
-        self.localLog = []
+        self.odomLog = []
         return
     def cb(self,data):
         data = np.array(data.data)
