@@ -44,7 +44,7 @@ class Localization(Node):
         print("finish init")
         self.boxSize = matching.Boxsize
         self.center = matching.PointsMin
-        self.MapPoints = self.map#matching.boxMap.copy()
+        self.MapPoints = matching.boxMap.copy()
         self.Vector = np.zeros(3)
         self.PosePub = self.create_publisher(Vector3,"Pose",10)
         #self.Ellpose = self.create_publisher(Vector3,"Ell",10)
@@ -53,27 +53,24 @@ class Localization(Node):
         self.pointsPlot = self.create_publisher(String,"Plot",10)
         self.fig,self.ax = plt.subplots()
         self.ax.plot(self.map[:,0],self.map[:,1],lw = 0,marker="o",c='r',markersize=1)
+        self.localLog = []
         return
     def cb(self,data):
         data = np.array(data.data)
         points = data.reshape((-1, 2))
-        points = points[(abs(points[:,1]) < 700)]
+        points = points[(abs(points[:,1]) < 800)]
         points[:,0] *= -1
         points = points[:,::-1]
         try:
-            #matching = NDTmatching(points,self.MapPoints,self.EKF.Pose.copy(),self.boxSize,self.center.copy())    
-            matching = ICPmatching(points,self.MapPoints)    
+            matching = NDTmatching(points,self.MapPoints,self.EKF.Pose.copy(),self.boxSize,self.center.copy())    
+            
+            if matching.minScore > 0:
+                self.EKF.Move(np.zeros(3),np.linalg.pinv(matching.H),matching.optedPose,0.0)
 
-
-            #delta = self.pose-matching.optedPose
-            #if delta[0:2]@(delta[0:2]).T < 1e6 and delta is not None and matching.minScore < 1.0:
-            #    self.pose = matching.optedPose
             ##########
             #plotの表示
             pointsplot, = self.ax.plot(matching.optedPoints[:,0],matching.optedPoints[:,1],lw = 0,marker = 'x',c = "c",markersize=1)
             #pointsplot, = self.ax.plot(points[:,0],points[:,1],lw = 0,marker = 'x',c = "c",markersize=1)
-            if matching.minScore > 0:
-                self.EKF.Move(np.zeros(3),10*np.linalg.pinv(matching.H),matching.optedPose,0.0)
             # Figureをバッファに保存
             buf = BytesIO()
             self.fig.savefig(buf, format='png')
