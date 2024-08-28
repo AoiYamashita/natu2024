@@ -174,11 +174,11 @@ class birdsEyeViewImage:
         except:
             return None,None,None,None
     def SearchColorLine(self,img,k = 5):
-        red = Get_Color_Point_RBG_Base(img,[100,15,15],50,50)
+        red = Get_Color_Point_RBG_Base(img,[100,15,15],70,70)
         # black = Get_Color_Point_RBG_Base(img,[30,30,30],30,50)
         blue = Get_Color_Point_RBG_Base(img,[30,30,160],50,50)
         # red = Get_Color_Point_HSV_Base(img,[0,224,178],20,20,rateS=.0,rateV=51.0)
-        black = Get_Color_Point_HSV_Base(img,[0,0,0],0,360,rateV=0.25)
+        black = Get_Color_Point_HSV_Base(img,[0,0,0],0,360,rateV=0.4)
         # blue = Get_Color_Point_HSV_Base(img,[240,207,160],20,20,rateS=5.0,rateV=5.0)
         #gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         redEdge = cv2.Canny(cv2.medianBlur(red,k), 100, 200, L2gradient=True)
@@ -208,11 +208,11 @@ class birdsEyeViewImage:
 
         sobel = cv2.medianBlur(sobel, k)
 
-        ret, dst = cv2.threshold(sobel ,30,500,cv2.THRESH_BINARY)
+        ret, dst = cv2.threshold(sobel ,50,500,cv2.THRESH_BINARY)
 
-        kernel = cv2.getStructuringElement(cv2.MORPH_CROSS, (3, 3))
+        # kernel = cv2.getStructuringElement(cv2.MORPH_CROSS, (3, 3))
 
-        dst = cv2.erode(dst, kernel)
+        # dst = cv2.erode(dst, kernel)
 
         Edge = cv2.bitwise_and(dst,newzeromask)
         #cv2.imshow("edgehoge",Edge)
@@ -237,11 +237,11 @@ class birdsEyeViewImage:
 
         ret, dst = cv2.threshold(sobel ,20,500,cv2.THRESH_BINARY)
 
-        kernelsize = 3
+        # kernelsize = 3
 
-        kernel = cv2.getStructuringElement(cv2.MORPH_CROSS,(kernelsize, kernelsize))
+        # kernel = cv2.getStructuringElement(cv2.MORPH_CROSS,(kernelsize, kernelsize))
 
-        dst_ = cv2.dilate(dst, np.uint8(kernel),iterations=3)
+        # dst_ = cv2.dilate(dst, np.uint8(kernel),iterations=3)
         
         notdst = cv2.bitwise_not(dst)
 
@@ -293,7 +293,7 @@ class ImgProcess(Node):
         self.publisher = self.create_publisher(Image,"processed",10)
         self.pub = self.create_publisher(String, 'web_image', 10)
         self.pointpub = self.create_publisher(Float64MultiArray, 'point_data', 10)
-        self.bevi = birdsEyeViewImage(25)
+        self.bevi = birdsEyeViewImage(20)
         self.cnt = 0
         return
     def cb(self,data):
@@ -318,9 +318,12 @@ class ImgProcess(Node):
                 y0 = 0
 
         try:
-            Edges = self.bevi.SearchLine(img[y0:y1,x0:x1])
+            # Red,Black,Blue = self.bevi.SearchColorLine(img[y0:y1,x0:x1])
             
-            points = np.argwhere(Edges > 0)-(self.bevi.MarkerPosition[0]-np.array([x0,y0])+self.bevi.size/2)[::-1]
+            # Edges = cv2.bitwise_or(Red,Black)
+            Edges = self.bevi.SearchLine(img[y0:y1,x0:x1])
+
+            points = 3*(np.argwhere(Edges > 0)-(self.bevi.MarkerPosition[0]-np.array([x0,y0])+self.bevi.size/2)[::-1])+np.array([0,385])
             
             pub_msg = Float64MultiArray()
             pub_msg.data = points.flatten().tolist()
@@ -340,12 +343,13 @@ class ImgProcess(Node):
         #    pass
 
         try:
-            img_jpeg = simplejpeg.encode_jpeg(np.array(img), colorspace = "BGR", quality = 50)
+            img_jpeg = simplejpeg.encode_jpeg(np.array(cv2.cvtColor(Edges,cv2.COLOR_GRAY2BGR)), colorspace = "BGR", quality = 50)
             pub_msg = String()
             pub_msg.data = base64.b64encode(img_jpeg).decode()
             self.pub.publish(pub_msg)
         except:
             pass
+
 
 
 def main():

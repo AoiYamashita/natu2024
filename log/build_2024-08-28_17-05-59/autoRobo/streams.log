@@ -1,0 +1,26 @@
+[4.431s] Invoking command in '/home/yamashita/natu2024/src/autoRobo': PYTHONPATH=/home/yamashita/natu2024/build/autoRobo/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/yamashita/natu2024/install/autoRobo/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/autoRobo build --build-base /home/yamashita/natu2024/build/autoRobo/build install --record /home/yamashita/natu2024/build/autoRobo/install.log --single-version-externally-managed install_data
+[6.207s] running egg_info
+[6.212s] writing ../../build/autoRobo/autoRobo.egg-info/PKG-INFO
+[6.214s] writing dependency_links to ../../build/autoRobo/autoRobo.egg-info/dependency_links.txt
+[6.216s] writing entry points to ../../build/autoRobo/autoRobo.egg-info/entry_points.txt
+[6.218s] writing requirements to ../../build/autoRobo/autoRobo.egg-info/requires.txt
+[6.221s] writing top-level names to ../../build/autoRobo/autoRobo.egg-info/top_level.txt
+[6.240s] reading manifest file '../../build/autoRobo/autoRobo.egg-info/SOURCES.txt'
+[6.245s] writing manifest file '../../build/autoRobo/autoRobo.egg-info/SOURCES.txt'
+[6.247s] running build
+[6.248s] running build_py
+[6.251s] copying autoRobo/localization.py -> /home/yamashita/natu2024/build/autoRobo/build/lib/autoRobo
+[6.252s] running install
+[6.252s] running install_lib
+[6.256s] copying /home/yamashita/natu2024/build/autoRobo/build/lib/autoRobo/localization.py -> /home/yamashita/natu2024/install/autoRobo/lib/python3.10/site-packages/autoRobo
+[6.260s] byte-compiling /home/yamashita/natu2024/install/autoRobo/lib/python3.10/site-packages/autoRobo/localization.py to localization.cpython-310.pyc
+[6.266s] running install_data
+[6.268s] running install_egg_info
+[6.278s] removing '/home/yamashita/natu2024/install/autoRobo/lib/python3.10/site-packages/autoRobo-0.0.0-py3.10.egg-info' (and everything under it)
+[6.281s] Copying ../../build/autoRobo/autoRobo.egg-info to /home/yamashita/natu2024/install/autoRobo/lib/python3.10/site-packages/autoRobo-0.0.0-py3.10.egg-info
+[6.289s] running install_scripts
+[6.408s] Installing ImgProcess script to /home/yamashita/natu2024/install/autoRobo/lib/autoRobo
+[6.412s] Installing Loclization script to /home/yamashita/natu2024/install/autoRobo/lib/autoRobo
+[6.414s] Installing serial script to /home/yamashita/natu2024/install/autoRobo/lib/autoRobo
+[6.416s] writing list of installed files to '/home/yamashita/natu2024/build/autoRobo/install.log'
+[6.594s] Invoked command in '/home/yamashita/natu2024/src/autoRobo' returned '0': PYTHONPATH=/home/yamashita/natu2024/build/autoRobo/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/yamashita/natu2024/install/autoRobo/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/autoRobo build --build-base /home/yamashita/natu2024/build/autoRobo/build install --record /home/yamashita/natu2024/build/autoRobo/install.log --single-version-externally-managed install_data
