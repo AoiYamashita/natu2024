@@ -1,0 +1,23 @@
+running egg_info
+writing ../../build/autoRobo/autoRobo.egg-info/PKG-INFO
+writing dependency_links to ../../build/autoRobo/autoRobo.egg-info/dependency_links.txt
+writing entry points to ../../build/autoRobo/autoRobo.egg-info/entry_points.txt
+writing requirements to ../../build/autoRobo/autoRobo.egg-info/requires.txt
+writing top-level names to ../../build/autoRobo/autoRobo.egg-info/top_level.txt
+reading manifest file '../../build/autoRobo/autoRobo.egg-info/SOURCES.txt'
+writing manifest file '../../build/autoRobo/autoRobo.egg-info/SOURCES.txt'
+running build
+running build_py
+running install
+running install_lib
+running install_data
+copying launch/autoRobo.launch.py -> /home/yamashita/natu2024/install/autoRobo/share/autoRobo
+running install_egg_info
+removing '/home/yamashita/natu2024/install/autoRobo/lib/python3.10/site-packages/autoRobo-0.0.0-py3.10.egg-info' (and everything under it)
+Copying ../../build/autoRobo/autoRobo.egg-info to /home/yamashita/natu2024/install/autoRobo/lib/python3.10/site-packages/autoRobo-0.0.0-py3.10.egg-info
+running install_scripts
+Installing ImgProcess script to /home/yamashita/natu2024/install/autoRobo/lib/autoRobo
+Installing Localization script to /home/yamashita/natu2024/install/autoRobo/lib/autoRobo
+Installing operater script to /home/yamashita/natu2024/install/autoRobo/lib/autoRobo
+Installing serial script to /home/yamashita/natu2024/install/autoRobo/lib/autoRobo
+writing list of installed files to '/home/yamashita/natu2024/build/autoRobo/install.log'
