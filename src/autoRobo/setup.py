@@ -25,7 +25,8 @@ setup(
         'console_scripts': [
             'ImgProcess = autoRobo.ImgProcess:main',
             'Localization = autoRobo.localization:main',
-            'serial = autoRobo.serial:main'
+            'serial = autoRobo.serial:main',
+            'operater = autoRobo.operater:main'
         ],
     },
 )

@@ -35,7 +35,7 @@ class Localization(Node):
     def __init__(self):
         super().__init__("receiver")
         print("start")
-        self.subscription = self.create_subscription(Float64MultiArray,"point_data",self.cb,10)
+        #self.subscription = self.create_subscription(Float64MultiArray,"point_data",self.cb,10)
         self.sub = self.create_subscription(Vector3,"odom",self.odom,10)
         self.EKF = ExtendedKalmanFilter(0.0002,0.0002,0.0002)
         self.map = np.load("/home/yamashita/natu2024/mapPoints.npy")
@@ -62,12 +62,22 @@ class Localization(Node):
         points[:,0] *= -1
         points = points[:,::-1]
         try:
-            self.get_logger().info("start matching %s" % str(points.shape))
-            matching = NDTmatching(points,self.MapPoints,self.EKF.Pose.copy(),self.boxSize,self.center.copy())    
-            if matching.optedPose[0] < 200 or matching.optedPose[1] < 200 or matching.optedPose[0] > 1600 or matching.optedPose[1] > 1600:
+            self.odomLog.clear()
+            now_Pose = self.EKF.Pose
+            localEKF = ExtendedKalmanFilter(0.0002,0.0002,0.0002)
+            localEKF.Pose = now_Pose
+            #self.get_logger().info("start matching %s" % str(points.shape))
+            matching = NDTmatching(points,self.MapPoints,now_Pose.copy(),self.boxSize,self.center.copy())    
+            if points.shape[0] > 100 or matching.optedPose[0] < 100 or matching.optedPose[1] < 100 or matching.optedPose[0] > 1700 or matching.optedPose[1] > 1700:
                 return
-            if matching.minScore < 1.0 and matching.minScore > 0.0 and (self.EKF.Pose-matching.optedPose)@(self.EKF.Pose-matching.optedPose).T < 70**2:
-                self.EKF.Move(np.zeros(3),1e8*np.linalg.pinv(matching.H),matching.optedPose,0.0)
+            if matching.minScore < 0.5 and matching.minScore > 0.0 and (now_Pose-matching.optedPose)@(now_Pose-matching.optedPose).T < 50**2:
+                localEKF.Move(np.zeros(3),np.linalg.pinv(matching.H),matching.optedPose,0.0)
+                for i,t in self.odomLog:
+                    localEKF.Move(i,None,None,t)
+                if len(self.odomLog) < 10:
+                    self.EKF.Move(np.zeros(3),localEKF.Sigma,localEKF.Pose,0.0)
+                    s = str(matching.optedPose)
+                    #self.get_logger().info("%s" % s)
             
             ##########
             #plotの表示
@@ -88,19 +98,18 @@ class Localization(Node):
             
             ########
             #print()
-            s = str(matching.optedPose)
-            self.get_logger().info("%s" % s)
-            V = Vector3()
-            V.x = self.EKF.Pose[0]
-            V.y = self.EKF.Pose[1]
-            V.z = self.EKF.Pose[2]
-            self.PosePub.publish(V)
+            # V = Vector3()
+            # V.x = self.EKF.Pose[0]
+            # V.y = self.EKF.Pose[1]
+            # V.z = self.EKF.Pose[2]
+            # self.PosePub.publish(V)
         except:
             pass
         #self.get_logger().info('Received matrix: "%s"' % matrix)
     def odom(self,data):
         dt = time.perf_counter() - self.time
         Vec = np.array([data.x,data.y,data.z])
+        self.odomLog.append((Vec,dt))
         self.EKF.Move(Vec,None,None,dt)
         #print(self.EKF.Pose)
         self.time = time.perf_counter()
@@ -109,6 +118,7 @@ class Localization(Node):
         V.y = float(self.EKF.Pose[1])
         V.z = float(self.EKF.Pose[2])
         self.PosePub.publish(V)
+        #self.get_logger().info("odom")
         # try:
         #     
         #     P = Vector3()

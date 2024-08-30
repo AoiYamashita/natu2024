@@ -311,7 +311,7 @@ class ImgProcess(Node):
         img = self.bevi.transImg(rawimg)
 
         x0,y0,x1,y1 = self.bevi.GetFieldErea(img)
-        print(x0,y0,x1,y1)
+        #print(x0,y0,x1,y1)
 
         if x0 is not None:
             blank = int(0.15*(x1-x0+y1-y0)/2.0)

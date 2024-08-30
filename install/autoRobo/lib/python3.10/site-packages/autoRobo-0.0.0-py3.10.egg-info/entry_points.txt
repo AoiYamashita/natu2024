@@ -1,5 +1,6 @@
 [console_scripts]
 ImgProcess = autoRobo.ImgProcess:main
 Localization = autoRobo.localization:main
+operater = autoRobo.operater:main
 serial = autoRobo.serial:main
 
