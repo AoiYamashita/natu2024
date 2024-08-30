@@ -13,9 +13,9 @@ class Operate(Node):
         self.subP = self.create_subscription(Vector3,"destination",self.setdes,10)
         self.destination = np.array([1550,900,np.pi])
         self.pub = self.create_publisher(String,"serial_data",10)
-        self.rate = 0.05
-        self.prate = 500
-        self.wrate = 30
+        self.rate = 0.001
+        self.prate = 20000
+        self.wrate = 2000
         return
     def cb(self,data):
         x = data.x
@@ -30,13 +30,13 @@ class Operate(Node):
         t = 0.01
         next = (A0*(1 - t)**3 + 3*A1*t*(1 - t)**2 + 3*B1*t**2*(1 - t) + B0*t**3)
         delta = next - A0
-        omega = self.wrate*(np.arctan2(next[1],next[0]) - np.arctan2(A0[1],A0[1]))
+        omega = self.wrate*(self.destination[2] - theta)
         dig = (np.arctan2(delta[1],delta[0])-theta)
         speed = self.prate*np.sqrt(delta[0]**2+delta[1]**2)
         s = String()
-        s.data = str("dig:{:.3f},speed:{:.3f},Rspeed:{:.3f}".format(float(dig),float(speed),float(omega)))
+        s.data = str("dig:{:.3f},speed:{},Rspeed:{}".format(float(dig),int(speed),int(omega)))
         self.pub.publish(s)
-        self.get_logger().info("send: %s" % "dig:{:.3f},speed:{:.3f},Rspeed:{:.3f}".format(float(dig),float(speed),float(omega)))
+        self.get_logger().info("send: %s" % "dig:{:.3f},speed:{},Rspeed:{}".format(float(dig),int(speed),int(omega)))
         return
     def setdes(self,data):
         self.destination = np.array([data.x,data.y,data.z])
