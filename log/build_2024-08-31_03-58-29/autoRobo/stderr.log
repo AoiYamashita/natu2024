@@ -1,0 +1,5 @@
+  File "/home/yamashita/natu2024/install/autoRobo/lib/python3.10/site-packages/autoRobo/strategy.py", line 14
+    self.poses = [np.array([1250,1250,np.pi*5/4]),"slide",np.array([1500,1500,np.pi*5/4]),"slide",,np.array([1550,900,np.pi])]
+                                                                                                  ^
+SyntaxError: invalid syntax
+

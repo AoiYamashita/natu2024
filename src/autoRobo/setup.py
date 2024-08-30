@@ -26,7 +26,8 @@ setup(
             'ImgProcess = autoRobo.ImgProcess:main',
             'Localization = autoRobo.localization:main',
             'serial = autoRobo.serial:main',
-            'operater = autoRobo.operater:main'
+            'operater = autoRobo.operater:main',
+            'strategy = autoRobo.strategy:main'
         ],
     },
 )

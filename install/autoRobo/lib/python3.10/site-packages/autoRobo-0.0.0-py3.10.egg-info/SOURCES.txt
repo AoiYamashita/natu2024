@@ -13,6 +13,7 @@ autoRobo/__init__.py
 autoRobo/localization.py
 autoRobo/operater.py
 autoRobo/serial.py
+autoRobo/strategy.py
 launch/autoRobo.launch.py
 resource/autoRobo
 test/test_copyright.py
