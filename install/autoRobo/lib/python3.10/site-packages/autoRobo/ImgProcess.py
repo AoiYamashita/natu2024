@@ -50,10 +50,10 @@ class birdsEyeViewImage:
     def __init__(self,size = 40):
         self.dictionary = aruco.getPredefinedDictionary(aruco.DICT_7X7_50)
 
-        self.camera_matrix = np.array([[699.28727872,   0.        , 326.3321078 ],
-                                       [  0.        , 698.96451783, 222.24815488],
-                                       [  0.        ,   0.        ,   1.        ]],dtype=np.float32)
-        self.distortion_coeff = np.array([ 0.16446647 ,-0.88571052 ,-0.0095173   ,0.00431599  ,1.95886302],dtype=np.float32)
+        self.camera_matrix = np.array([[1.44135180e+03, 0.00000000e+00, 9.29930173e+02],
+                                       [0.00000000e+00, 1.44668387e+03, 5.55430778e+02],
+                                       [0.00000000e+00, 0.00000000e+00, 1.00000000e+00]],dtype=np.float32)
+        self.distortion_coeff = np.array([ 7.84716233e-02, -4.41712074e-01, -9.64996643e-04, -2.99172663e-04, 8.40706308e-01],dtype=np.float32)
         self.size = size
         self.cornerVec = np.array([[size,0],[0,0],[0,size],[size,size]],dtype=np.float32)
         self.corners = [None for i in range(10)]
@@ -333,7 +333,7 @@ class ImgProcess(Node):
 
             points = 3*(np.argwhere(Edges > 0)-(self.bevi.MarkerPosition[0]-np.array([x0,y0])+self.bevi.size/2)[::-1])+np.array([0,385])
             
-            box = 20
+            box = 35
             points = np.unique(np.round(points/box)*box, axis=0)
             pub_msg = Float64MultiArray()
             pub_msg.data = points.flatten().tolist()
@@ -353,7 +353,7 @@ class ImgProcess(Node):
             pass
 
         try:
-            img_jpeg = simplejpeg.encode_jpeg(np.array(img), colorspace = "BGR", quality = 50)
+            img_jpeg = simplejpeg.encode_jpeg(np.array(cv2.cvtColor(Edges,cv2.COLOR_GRAY2BGR)), colorspace = "BGR", quality = 50)
             pub_msg = String()
             pub_msg.data = base64.b64encode(img_jpeg).decode()
             self.pub.publish(pub_msg)

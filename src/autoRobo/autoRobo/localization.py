@@ -62,11 +62,13 @@ class Localization(Node):
         points[:,0] *= -1
         points = points[:,::-1]
         try:
+            self.get_logger().info("start matching %s" % str(points.shape))
             matching = NDTmatching(points,self.MapPoints,self.EKF.Pose.copy(),self.boxSize,self.center.copy())    
+            if matching.optedPose[0] < 200 or matching.optedPose[1] < 200 or matching.optedPose[0] > 1600 or matching.optedPose[1] > 1600:
+                return
+            if matching.minScore < 1.0 and matching.minScore > 0.0 and (self.EKF.Pose-matching.optedPose)@(self.EKF.Pose-matching.optedPose).T < 70**2:
+                self.EKF.Move(np.zeros(3),1e8*np.linalg.pinv(matching.H),matching.optedPose,0.0)
             
-            if matching.minScore > 0:
-                self.EKF.Move(np.zeros(3),np.linalg.pinv(matching.H),matching.optedPose,0.0)
-
             ##########
             #plotの表示
             pointsplot, = self.ax.plot(matching.optedPoints[:,0],matching.optedPoints[:,1],lw = 0,marker = 'x',c = "c",markersize=1)
@@ -83,8 +85,11 @@ class Localization(Node):
             self.pointsPlot.publish(pub_msg)
             
             pointsplot.remove()
+            
             ########
-            print(matching.optedPose)
+            #print()
+            s = str(matching.optedPose)
+            self.get_logger().info("%s" % s)
             V = Vector3()
             V.x = self.EKF.Pose[0]
             V.y = self.EKF.Pose[1]
