@@ -13,7 +13,7 @@ class Operate(Node):
         self.subP = self.create_subscription(Vector3,"destination",self.setdes,10)
         self.destination = None#np.array([1800-200-45,900,np.pi])
         self.pub = self.create_publisher(String,"serial_data",10)
-        self.rate = 0.001
+        self.rate = 0.0001
         self.prate = 20000
         self.wrate = 1000
         return
