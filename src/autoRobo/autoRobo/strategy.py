@@ -17,7 +17,7 @@ class Strtegy(Node):
         pose = np.array([data.x,data.y,data.z])
         if self.poses[self.fase] == "slide":
             s = String()
-            s.data = "Slide:"
+            s.data = "Slide"
             self.slidepub.publish(s)
             time.sleep(5)
             self.fase += 1
