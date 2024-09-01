@@ -30,7 +30,7 @@ class Strtegy(Node):
         if self.poses[self.fase] == "finish":
             self.get_logger().info("finish task")
             return
-        self.get_logger().info("now: %d" % self.fase)
+        #self.get_logger().info("now: %d" % self.fase)
         pose = np.array([data.x,data.y,data.z])
         if self.poses[self.fase] == "slide":
             s = String()
