@@ -1,0 +1,5 @@
+  File "/home/yamashita/natu2024/install/autoRobo/lib/python3.10/site-packages/autoRobo/strategy.py", line 26
+    np.array([1550,900,np.pi])
+    ^^^^^^^^
+SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
