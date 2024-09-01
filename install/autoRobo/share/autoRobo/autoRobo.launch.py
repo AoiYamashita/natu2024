@@ -45,4 +45,4 @@ def generate_launch_description():
             parameters=[{'port': 9090}],
             output = 'screen',
             )
-    return launch.LaunchDescription([serial,web,localization,ope,str])#usb_cam,camera,
+    return launch.LaunchDescription([serial,localization,ope,str])#usb_cam,camera,web,
